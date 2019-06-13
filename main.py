@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from flask import Flask
-import sqlite3
+from slave.feedback_db_helper import FeedbackDBHelper
 import json
 
 SRV_PORT = 41278
@@ -15,7 +15,10 @@ def i_am_the_master():
 
 @app.route('/last_timestamp')
 def last_timestamp():
-    return ""
+    db = FeedbackDBHelper(DB_NAME)
+    t = db.get_max_time()
+    db.close()
+    return str(t)
 
 @app.route('/download_embeddings/<timestamp>')
 def last_timestamp(timestamp):
@@ -24,4 +27,6 @@ def last_timestamp(timestamp):
 @app.route('/download_feedbacks/<timestamp>')
 def last_timestamp(timestamp):
     return ""
+
+
 
