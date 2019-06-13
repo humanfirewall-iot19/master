@@ -1,13 +1,59 @@
 #!/usr/bin/env python3
 
-from flask import Flask
+from flask import Flask, request, jsonify
 import sqlite3
 import json
+import time
+import bot
+import os
+import random
+import string
 
 SRV_PORT = 41278
 DB_NAME = "slave/feedback_db.sqlite"
+UPLOAD_FOLDER = 'static/'
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = "./" + UPLOAD_FOLDER
+
+tgtok = os.getenv("TELEGRAM_TOKEN")
+assert tgtok is not None
+tgbot = bot.Bot(tgtok)
+
+def rand_str(l):
+    return ''.join(random.choice(string.ascii_lowercase) for i in range(l))
+
+def remove_old_imgs():
+    now = time.time()
+    for f in os.listdir(app.config['UPLOAD_FOLDER']):
+        if os.stat(os.path.join(app.config['UPLOAD_FOLDER'], f)).st_mtime < now - 60*60:
+            os.unlink(os.path.join(app.config['UPLOAD_FOLDER'], f))
+
+
+@app.route('/ring', methods = ['POST'])
+def ring():
+    board_id = request.form.get("board_id")
+    encoding = request.form.get("encoding")
+    feedback = request.form.get("feedback")
+    face=request.form.get("has_face")
+    if 'file' not in request.files:
+        return "no file in request"
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify(error = "no selected file name")
+    if file:
+        filename = secure_filename(file.filename)
+        ext = os.path.splitext(filename)[1]
+        filename = rand_str(16) + ext
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        is_new, idx, similarity = do_magic(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        img_fd = open(UPLOAD_FOLDER + filename, "rb")
+        print (board_id, encoding, feedback, BASE_URL + UPLOAD_FOLDER + filename)
+        tgbot.send_notification(board_id, econding, feedback, img_fd,has_face=face)
+        if is_new is None:
+            return "face not found"
+        return "ok"
+    return "invalid file"
 
 @app.route('/i_am_the_master')
 def i_am_the_master():
@@ -25,3 +71,6 @@ def last_timestamp(timestamp):
 def last_timestamp(timestamp):
     return ""
 
+if __name__ == "__main__":
+    tgbot.start()
+    app.run(host="0.0.0.0", port=PORT)
