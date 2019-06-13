@@ -1,0 +1,6 @@
+[submodule "slave"]
+	path = slave
+	url = https://github.com/humanfirewall-iot19/slave.git
+[submodule "bot"]
+	path = bot
+	url = https://github.com/humanfirewall-iot19/bot.git
