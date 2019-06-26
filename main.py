@@ -15,8 +15,9 @@ UPLOAD_FOLDER = 'static/'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = "./" + UPLOAD_FOLDER
-
-tgtok = os.getenv("TELEGRAM_TOKEN")
+parser = configparser.ConfigParser()
+parser.read('config.ini')
+tgtok = parser.get('telegram', 'token')
 assert tgtok is not None
 tgbot = bot.Bot(tgtok)
 
