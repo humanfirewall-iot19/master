@@ -1,3 +1,5 @@
+*.sqlite
+static/*
 config.ini
 
 # Byte-compiled / optimized / DLL files
