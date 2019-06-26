@@ -34,10 +34,13 @@ def remove_old_imgs():
 
 @app.route('/ring', methods = ['POST'])
 def ring():
-    board_id = request.form.get("board_id")
-    encoding = request.form.get("encoding")
-    feedback = request.form.get("feedback")
-    has_face=request.form.get("has_face")
+    remove_old_imgs()
+    j = json.loads(request.form.get("json"))
+    print(j)
+    board_id = j.get("board_id")
+    encoding = j.get("encoding")
+    feedback = j.get("feedback")
+    has_face=j.get("has_face")
     if 'file' not in request.files:
         return "no file in request"
     file = request.files['file']
@@ -49,8 +52,8 @@ def ring():
         filename = rand_str(16) + ext
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         img_fd = open(UPLOAD_FOLDER + filename, "rb")
-        print (board_id, encoding, feedback, UPLOAD_FOLDER + filename)
-        tgbot.send_notification(board_id, encoding, feedback, img_fd, has_face=has_face)
+        print (board_id, encoding, feedback, UPLOAD_FOLDER + filename, has_face)
+        tgbot.send_notification(board_id, encoding, feedback, img_fd, has_face)
         return "ok"
     return "invalid file"
 
