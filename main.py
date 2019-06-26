@@ -8,6 +8,7 @@ import bot
 import os
 import random
 import string
+import configparser
 
 SRV_PORT = 41278
 DB_NAME = "slave/feedback_db.sqlite"
