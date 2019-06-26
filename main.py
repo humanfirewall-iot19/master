@@ -49,7 +49,7 @@ def ring():
         filename = rand_str(16) + ext
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         img_fd = open(UPLOAD_FOLDER + filename, "rb")
-        print (board_id, encoding, feedback, BASE_URL + UPLOAD_FOLDER + filename)
+        print (board_id, encoding, feedback, UPLOAD_FOLDER + filename)
         tgbot.send_notification(board_id, econding, feedback, img_fd, has_face=has_face)
         return "ok"
     return "invalid file"
