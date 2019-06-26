@@ -2,6 +2,7 @@
 
 from flask import Flask, request, jsonify
 from slave.feedback_db_helper import FeedbackDBHelper
+from werkzeug.utils import secure_filename
 import json
 import time
 import bot
