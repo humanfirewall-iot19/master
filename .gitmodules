@@ -1,6 +1,8 @@
 [submodule "slave"]
 	path = slave
 	url = https://github.com/humanfirewall-iot19/slave.git
+  branch = master
 [submodule "bot"]
 	path = bot
-	url = https://github.com/humanfirewall-iot19/bot.git
+  url = https://github.com/humanfirewall-iot19/bot.git
+  branch = master
