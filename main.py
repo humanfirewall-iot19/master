@@ -21,7 +21,7 @@ parser = configparser.ConfigParser()
 parser.read('config.ini')
 tgtok = parser.get('telegram', 'token')
 assert tgtok is not None
-tgbot = bot.Bot(tgtok)
+tgbot = bot.Bot(tgtok, "127.0.0.1")
 
 def rand_str(l):
     return ''.join(random.choice(string.ascii_lowercase) for i in range(l))
