@@ -65,11 +65,11 @@ def last_timestamp():
     return str(t)
 
 @app.route('/download_embeddings/<timestamp>')
-def last_timestamp(timestamp):
+def download_embeddings(timestamp):
     return ""
 
 @app.route('/download_feedbacks/<timestamp>')
-def last_timestamp(timestamp):
+def download_feedbacks(timestamp):
     return ""
 
 if __name__ == "__main__":
