@@ -71,16 +71,16 @@ def last_timestamp():
 @app.route('/download_embeddings/<timestamp>')
 def download_embeddings(timestamp):
     faces.restore()
-    ret = faces.query_by_time_b64(timestamp)
+    diff = faces.query_by_time_b64(timestamp)
     faces.destroy()
-    return json.dumps(ret)
+    return json.dumps(diff)
 
 @app.route('/download_feedbacks/<timestamp>')
 def download_feedbacks(timestamp):
     db = FeedbackDBHelper(DB_NAME)
-    t = db.get_diff(timestamp)
+    diff = db.get_diff(timestamp)
     db.close()
-    return json.dumps(t)
+    return json.dumps(diff)
 
 if __name__ == "__main__":
     tgbot.start()
