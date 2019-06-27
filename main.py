@@ -73,14 +73,14 @@ def download_embeddings(timestamp):
     faces.restore()
     ret = faces.query_by_time_b64(timestamp)
     faces.destroy()
-    return str(json.dumps(ret))
+    return json.dumps(ret)
 
 @app.route('/download_feedbacks/<timestamp>')
 def download_feedbacks(timestamp):
     db = FeedbackDBHelper(DB_NAME)
     t = db.get_diff(timestamp)
     db.close()
-    return str(json.dumps(t))
+    return json.dumps(t)
 
 if __name__ == "__main__":
     tgbot.start()
