@@ -72,7 +72,7 @@ def last_timestamp():
 @app.route('/download_embeddings/<timestamp>')
 def download_embeddings(timestamp):
     faces.restore("slave/encodings.pickle")
-    diff = faces.query_by_time_b64(int(timestamp))
+    diff = faces.query_by_time_b64(float(timestamp))
     print(faces.data)
     print("\n\n\n")
     print(diff)
@@ -82,7 +82,7 @@ def download_embeddings(timestamp):
 @app.route('/download_feedbacks/<timestamp>')
 def download_feedbacks(timestamp):
     db = FeedbackDBHelper(DB_NAME)
-    diff = db.get_diff(int(timestamp))
+    diff = db.get_diff(float(timestamp))
     print(diff)
     db.close()
     return json.dumps(diff)
