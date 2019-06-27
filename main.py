@@ -10,6 +10,7 @@ import os
 import random
 import string
 import configparser
+from slave import faces
 
 SRV_PORT = 41278
 DB_NAME = "slave/feedback_db.sqlite"
@@ -70,15 +71,19 @@ def last_timestamp():
 
 @app.route('/download_embeddings/<timestamp>')
 def download_embeddings(timestamp):
-    faces.restore()
-    diff = faces.query_by_time_b64(timestamp)
+    faces.restore("slave/encodings.pickle")
+    diff = faces.query_by_time_b64(int(timestamp))
+    print(faces.data)
+    print("\n\n\n")
+    print(diff)
     faces.destroy()
     return json.dumps(diff)
 
 @app.route('/download_feedbacks/<timestamp>')
 def download_feedbacks(timestamp):
     db = FeedbackDBHelper(DB_NAME)
-    diff = db.get_diff(timestamp)
+    diff = db.get_diff(int(timestamp))
+    print(diff)
     db.close()
     return json.dumps(diff)
 
