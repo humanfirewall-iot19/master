@@ -84,6 +84,7 @@ def download_embeddings(timestamp):
 @app.route('/download_feedbacks/<timestamp>')
 def download_feedbacks(timestamp):
     db = FeedbackDBHelper(DB_NAME)
+    db.connect()
     diff = db.get_diff(float(timestamp))
     print(diff)
     db.close()
