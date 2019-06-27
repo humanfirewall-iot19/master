@@ -16,6 +16,8 @@ SRV_PORT = 41278
 DB_NAME = "slave/feedback_db.sqlite"
 UPLOAD_FOLDER = 'static/'
 
+os.system("mkdir -p '%s'" % UPLOAD_FOLDER)
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = "./" + UPLOAD_FOLDER
 parser = configparser.ConfigParser()
